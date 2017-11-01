@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="app" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="app" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="img/favicon.ico"/>
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Bootstrap theme -->
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="css/theme.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div>
+    <nav class="navbar navbar-default background-blue">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="color: white;" href="">Departmental Store</a>
+            </div>
+            <div id="navbar" ng-if="show_menu" class="navbar-collapse collapse" ng-controller="logoutController">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li><a style="color: white;">Hi Divya</a></li>
+                    <li><a href="dashboard.html" style="color: white;">Dashboard</a></li>
+                    <li><a href="generatebill.html" style="color: white;">Generate Bill</a></li>
+                    <li class="active"><a style="color:#0d366b;" href="">View Products</a></li>
+                    <li><a href="updateprice.html" style="color: white;">Update Price</a></li>
+                    <li><a href="viewsales.html" style="color: white;">View Sales</a></li>
+                    <li><a href="addnewitem.html" style="color: white;">Add New Item</a></li>
+
+                    <li><a href="" ng-click="logout()" style="color: white;">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container theme-showcase" role="main">
+        <div class="page-header">
+            <h3>View Products</h3>
+        </div>
+
+    </div>
+</div>
+
+<div class="background-theme" id="footer">
+    <footer class="footer" style="padding-top: 30px;text-align:center;">
+        <p style="color: white;">&copy; 2017 Departmental Store</p>
+    </footer>
+</div>
+<script src="js/jquery/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
