@@ -1,15 +1,69 @@
-group 'com.divya'
+group 'com.online'
 version '0.1.0'
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    baseName = 'DepartmentalStore'
+    version = '1.0'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springbootVersion}")
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-devtools")
+
+    compile("org.webjars:angularjs:$angularJsVersion")
+    compile("org.webjars.bower:angular-bootstrap:$angularBootstrapVersion"){
+        exclude module:"angular"
+    }
+    compile ("org.webjars.bower:angular:1.6.4")
+    compile ("org.webjars.bower:angular-ui-grid:${angularUiGridVersion}"){
+        exclude module:"angular"
+    }
+
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.webjars.bower:angular-base64:$angularBase64Version"){
+        exclude module:"angular"
+    }
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile 'joda-time:joda-time:2.9.7'
+    compile "net.sourceforge.nekohtml:nekohtml:$thymeleafVersion"
+
+    testCompile "junit:junit:$junitVersion"
+}
+
+task startDepartmentalStore(dependsOn: ["assemble", "stopAdmin"]) << {
+    println "Starting Departmental Store"
+    ant.java(fork: true, spawn: true, jar: "${projectDir}/build/libs/DepartmentalStore-1.0.jar") {
+        arg(value: "--spring.config.location=${projectDir}/src/main/resources/application.properties")
+        arg(value: "--logging.config=${projectDir}/src/main/resources/logback-spring.xml")
+    }
+    Thread.sleep(2000)
+    println "Started Departmental Store"
+}
+
+task stopDepartmentalStore << {
+    println "Stopping Departmental Store"
+    "pkill -9 -f DepartmentalStore-1.0.jar".execute().waitFor()
+    println "Stopped Departmental Store"
 }

@@ -1,0 +1,61 @@
+<div>
+    <div ng-include="'views/common/header.html'"></div>
+    <div class="container theme-showcase" role="main">
+        <div class="page-header">
+            <h3>Update Price</h3>
+        </div>
+
+
+        <div>
+            <p>Select a product and enter price details to update:</p>
+
+            <form class="navbar">
+                <div class="row">
+                    <div class="col-md-4">
+                        <table class="table">
+                            <tbody>
+                            <tr style="vertical-align: middle;">
+                                <td style="vertical-align: middle;">Product Name</td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        <select class="form-control" >
+                                            <option value="select">Select Product</option>
+                                            <option value="headphones">Head Phones</option>
+                                            <option value="saab">Cooker</option>
+                                            <option value="mercedes">Urad dal</option>
+                                            <option value="audi">Prestige Gas Stove</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="vertical-align: middle;">Price</td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        6000
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="vertical-align: middle;">New Price</td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        <input type="text" id="newprice" name="newprice" placeholder="New Price"
+                                               class="form-control" autofocus>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" id="updateuserdeatils" style="width: 150px;"
+                            class="btn btn-primary btn-block">Update Price
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

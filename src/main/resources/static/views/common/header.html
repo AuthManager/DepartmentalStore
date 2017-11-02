@@ -1,0 +1,42 @@
+<div id="header">
+    <nav class="navbar navbar-default background-blue">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="color: white;" href="">Departmental Store</a>
+            </div>
+            <div id="navbar" ng-if="show_menu" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li><a style="color: white;">Hi Divya</a></li>
+
+                    <li ng-show="active_page=='dashboard'" class="active"><a style="color:#0d366b;" href="">Dashboard</a></li>
+                    <li ng-show="active_page!='dashboard'"><a href="#!/dashboard" style="color: white;">Dashboard</a></li>
+
+                    <li ng-show="active_page=='generatebill'" class="active"><a style="color:#0d366b;" href="">Generate Bill</a></li>
+                    <li ng-show="active_page!='generatebill'"><a href="#!/generatebill" style="color: white;">Generate Bill</a></li>
+
+                    <li ng-show="active_page=='viewproducts'" class="active"><a style="color:#0d366b;" href="">View Products</a></li>
+                    <li ng-show="active_page!='viewproducts'"><a href="#!/viewproducts" style="color: white;">View Products</a></li>
+
+                    <li ng-show="active_page=='updateprice'" class="active"><a style="color:#0d366b;" href="">Update Price</a></li>
+                    <li ng-show="active_page!='updateprice'"><a href="#!/updateprice" style="color: white;">Update Price</a></li>
+
+                    <li ng-show="active_page=='viewsales'" class="active"><a style="color:#0d366b;" href="">View Sales</a></li>
+                    <li ng-show="active_page!='viewsales'"><a href="#!/viewsales" style="color: white;">View Sales</a></li>
+
+                    <li ng-show="active_page=='addnewitem'" class="active"><a style="color:#0d366b;" href="">Add New Item</a></li>
+                    <li ng-show="active_page!='addnewitem'"><a href="#!/addnewitem" style="color: white;">Add New Item</a></li>
+
+                    <li><a href="" ng-click="logout()" style="color: white;">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

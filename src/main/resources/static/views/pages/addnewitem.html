@@ -1,0 +1,57 @@
+<div>
+    <div ng-include="'views/common/header.html'"></div>
+
+    <div class="container theme-showcase" role="main">
+        <div class="page-header">
+            <h3>Add New Item</h3>
+        </div>
+
+        <div>
+            <p>Enter below details to add new product :</p>
+
+            <form class="navbar">
+                <div class="row">
+                    <div class="col-md-4">
+                        <table class="table">
+                            <tbody>
+                            <tr style="vertical-align: middle;">
+                                <td style="vertical-align: middle;">Product Name</td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        <input type="text" id="productname" name="productname"
+                                               placeholder="Product Name" class="form-control" autofocus>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="vertical-align: middle;">Price</td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        <input type="text" id="price" name="price" placeholder="Price"
+                                               class="form-control" autofocus>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="vertical-align: middle;">Quantity</td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        <input type="text" id="quantity" name="quantity" placeholder="Quantity"
+                                               class="form-control" autofocus>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" id="updateuserdeatils" style="width: 150px;"
+                            class="btn btn-primary btn-block">Add Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
