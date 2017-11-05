@@ -3,8 +3,8 @@ var app = angular.module('app', ['ngCookies', 'ngRoute', 'ngResource']);
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'views/pages/login.html',
-            controller: 'loginController'
+            templateUrl: 'views/pages/dashboard.html',
+            controller: 'dashboardController'
         })
         .when('/login', {
             templateUrl: 'views/pages/login.html',

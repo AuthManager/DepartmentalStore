@@ -11,10 +11,10 @@
                 </button>
                 <a class="navbar-brand" style="color: white;" href="">Departmental Store</a>
             </div>
-            <div id="navbar" ng-if="show_menu" class="navbar-collapse collapse">
+            <div id="navbar" ng-if="show_menu" class="navbar-collapse collapse" ng-controller="logoutController">
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li><a style="color: white;">Hi Divya</a></li>
+                    <li><a style="color: white;">Hi {{ first_name }}</a></li>
 
                     <li ng-show="active_page=='dashboard'" class="active"><a style="color:#0d366b;" href="">Dashboard</a></li>
                     <li ng-show="active_page!='dashboard'"><a href="#!/dashboard" style="color: white;">Dashboard</a></li>
