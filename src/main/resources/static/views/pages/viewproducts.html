@@ -10,28 +10,20 @@
 
             <form class="navbar">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <table class="table">
                             <thead>
                             <tr class="background-blue" style="color: white;">
                                 <td>Product Name</td>
+                                <td>Price</td>
                                 <td>Remaining Quantity</td>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr style="vertical-align: middle;">
-                                <td style="vertical-align: middle;">Head Phones</td>
-                                <td style="vertical-align: middle;">14</td>
-                            </tr>
-
-                            <tr style="vertical-align: middle;">
-                                <td style="vertical-align: middle;">Cooker</td>
-                                <td style="vertical-align: middle;">9</td>
-                            </tr>
-
-                            <tr style="vertical-align: middle;">
-                                <td style="vertical-align: middle;">Prestige Gas Stove</td>
-                                <td style="vertical-align: middle;">32</td>
+                            <tr style="vertical-align: middle;" ng-repeat="product in all">
+                                <td style="vertical-align: middle;">{{ product.name }}</td>
+                                <td style="vertical-align: middle;">{{ product.price }}</td>
+                                <td style="vertical-align: middle;">{{ product.quantity }}</td>
                             </tr>
                             </tbody>
                         </table>

@@ -5,11 +5,22 @@
             <h3>Update Price</h3>
         </div>
 
+        <div class="alert alert-success" role="alert" ng-cloak ng-show="successMessage != null">
+            <button type="button" ng-click="successMessage=null" class="close" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span id="successMessage">{{ successMessage }}</span>
+        </div>
+
+        <div class="alert alert-danger" role="alert" ng-cloak ng-show="errorMessage != null">
+            <button type="button" ng-click="errorMessage=null" class="close" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span id="errorMessageDiv">{{ errorMessage }}</span>
+        </div>
 
         <div>
             <p>Select a product and enter price details to update:</p>
 
-            <form class="navbar">
+            <form class="navbar" ng-show="all != null && all.length > 0" name="updateprice" ng-submit="updatePrice()">
                 <div class="row">
                     <div class="col-md-4">
                         <table class="table">
@@ -18,12 +29,9 @@
                                 <td style="vertical-align: middle;">Product Name</td>
                                 <td style="vertical-align: middle;">
                                     <div>
-                                        <select class="form-control" >
-                                            <option value="select">Select Product</option>
-                                            <option value="headphones">Head Phones</option>
-                                            <option value="saab">Cooker</option>
-                                            <option value="mercedes">Urad dal</option>
-                                            <option value="audi">Prestige Gas Stove</option>
+                                        <select class="form-control" ng-model="selectedProduct" ng-change="productSelection(selectedProduct)"
+                                                 data-ng-options="product as product.name for product in all">
+                                            <option value="">Select Product</option>
                                         </select>
                                     </div>
                                 </td>
@@ -31,8 +39,8 @@
                             <tr style="vertical-align: middle;">
                                 <td style="vertical-align: middle;">Price</td>
                                 <td style="vertical-align: middle;">
-                                    <div>
-                                        6000
+                                    <div ng-show="current_price !=null ">
+                                        {{ current_price }}
                                     </div>
                                 </td>
                             </tr>
@@ -40,7 +48,8 @@
                                 <td style="vertical-align: middle;">New Price</td>
                                 <td style="vertical-align: middle;">
                                     <div>
-                                        <input type="text" id="newprice" name="newprice" placeholder="New Price"
+                                        <input type="text" id="newprice" name="newprice" ng-model="newprice"
+                                               placeholder="New Price"
                                                class="form-control" autofocus>
                                     </div>
                                 </td>

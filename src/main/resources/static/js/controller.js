@@ -72,6 +72,7 @@ app.controller('generatebillController', function ($scope, $http, $cookies, $win
     $scope.show_menu = true;
     $scope.active_page = "generatebill";
     setSession($scope, $cookies, $window);
+    allProducts($http, $scope);
 });
 
 
@@ -79,32 +80,101 @@ app.controller('viewproductsController', function ($scope, $http, $cookies, $win
     $scope.show_menu = true;
     $scope.active_page = "viewproducts";
     setSession($scope, $cookies, $window);
+    allProducts($http, $scope);
 });
 
 app.controller('viewsalesController', function ($scope, $http, $cookies, $window) {
     $scope.show_menu = true;
     $scope.active_page = "viewsales";
     setSession($scope, $cookies, $window);
-
 });
 
 app.controller('updatepriceController', function ($scope, $http, $cookies, $window) {
     $scope.show_menu = true;
     $scope.active_page = "updateprice";
     setSession($scope, $cookies, $window);
+    allProducts($http, $scope);
+
+    $scope.productSelection = function (product) {
+        $scope.current_price = product.price;
+    };
+
+    $scope.updatePrice = function () {
+        $scope.successMessage = null;
+        $scope.errorMessage = null;
+        if ($scope.selectedProduct && $scope.newprice) {
+            $http({
+                method: "PUT",
+                url: "api/product/"+ $scope.selectedProduct.name,
+                data: {
+                    price: $scope.newprice
+                }
+            }).then(
+                function successCallback() {
+                    $scope.successMessage = "Successfully update price for the Product";
+                    allProducts($http, $scope);
+                    clearFields();
+                },
+                function errorCallback(response) {
+                    $scope.errorMessage = 'Problem occurred while updating a product.';
+                }
+            );
+        } else {
+            $scope.errorMessage = 'Please input atleast one field to update.';
+        }
+
+        function clearFields() {
+            $scope.selectedProduct = "";
+            $scope.newprice = "";
+            $scope.current_price = "";
+            $scope.updateprice.$setPristine();
+        }
+    };
+
 });
 
 app.controller('addnewitemController', function ($scope, $http, $cookies, $window) {
     $scope.show_menu = true;
     $scope.active_page = "addnewitem";
     setSession($scope, $cookies, $window);
+    $scope.addProduct = function () {
+        $scope.successMessage = null;
+        $scope.errorMessage = null;
+        if ($scope.name && $scope.price && $scope.quantity) {
+            $http({
+                method: "POST",
+                url: "api/product",
+                data: {
+                    name: $scope.name,
+                    price: $scope.price,
+                    quantity: $scope.quantity
+                }
+            }).then(
+                function successCallback() {
+                    $scope.successMessage = "Successfully created a product";
+                    clearFields();
+                },
+                function errorCallback(response) {
+                    $scope.errorMessage = 'Problem occurred while creating a product.';
+                }
+            );
+        } else {
+            $scope.errorMessage = 'Please input atleast one field to update.';
+        }
+
+        function clearFields() {
+            $scope.name = "";
+            $scope.price = "";
+            $scope.quantity = "";
+            $scope.addproduct.$setPristine();
+        }
+    };
 });
 
-function deleteRow(row)
-{
+function deleteRow(row) {
     var billTable = document.getElementById('bill-table');
     console.log(billTable.rows.length);
-    if(billTable.rows.length > 2){
+    if (billTable.rows.length > 2) {
         var index = row.parentNode.parentNode.rowIndex;
         billTable.deleteRow(index);
     } else {
@@ -112,8 +182,7 @@ function deleteRow(row)
     }
 }
 
-function insRow()
-{
+function insRow() {
     var billTable = document.getElementById('bill-table');
     var newRow = billTable.rows[1].cloneNode(true);
     billTable.getElementsByTagName("tbody")[0].appendChild(newRow);
@@ -136,4 +205,20 @@ function setSession($scope, $cookies, $window) {
             $window.location.href = "#!/login"
         }
     });
+}
+
+function allProducts($http, $scope) {
+    $scope.all = null;
+    $scope.errorMessage = null;
+    $http({
+        method: "GET",
+        url: "api/product/all"
+    }).then(
+        function successCallback(response) {
+            $scope.all = response.data;
+        },
+        function errorCallback(response) {
+            $scope.errorMessage = 'Problem occurred while searching';
+        }
+    );
 }

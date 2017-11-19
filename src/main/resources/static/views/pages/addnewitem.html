@@ -6,10 +6,22 @@
             <h3>Add New Item</h3>
         </div>
 
+        <div class="alert alert-success" role="alert" ng-cloak ng-show="successMessage != null">
+            <button type="button" ng-click="successMessage=null" class="close" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span id="successMessage">{{ successMessage }}</span>
+        </div>
+
+        <div class="alert alert-danger" role="alert" ng-cloak ng-show="errorMessage != null">
+            <button type="button" ng-click="errorMessage=null" class="close" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span id="errorMessageDiv">{{ errorMessage }}</span>
+        </div>
+
         <div>
             <p>Enter below details to add new product :</p>
 
-            <form class="navbar">
+            <form class="navbar" name="addproduct" role="form" ng-submit="addProduct()">
                 <div class="row">
                     <div class="col-md-4">
                         <table class="table">
@@ -19,7 +31,7 @@
                                 <td style="vertical-align: middle;">
                                     <div>
                                         <input type="text" id="productname" name="productname"
-                                               placeholder="Product Name" class="form-control" autofocus>
+                                               ng-model="name" placeholder="Product Name" class="form-control" autofocus>
                                     </div>
                                 </td>
                             </tr>
@@ -28,7 +40,7 @@
                                 <td style="vertical-align: middle;">
                                     <div>
                                         <input type="text" id="price" name="price" placeholder="Price"
-                                               class="form-control" autofocus>
+                                               ng-model="price" class="form-control" autofocus>
                                     </div>
                                 </td>
                             </tr>
@@ -37,7 +49,7 @@
                                 <td style="vertical-align: middle;">
                                     <div>
                                         <input type="text" id="quantity" name="quantity" placeholder="Quantity"
-                                               class="form-control" autofocus>
+                                               ng-model="quantity" class="form-control" autofocus>
                                     </div>
                                 </td>
                             </tr>
