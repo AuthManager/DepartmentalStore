@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+<script src="bill.js"></script>
+<div ng-app="app" ng-controller="MyCtrl">
+
+    <table class="table" id="bill-table">
+        <thead>
+        <tr class="background-blue" style="color: white;">
+            <td>Product</td>
+            <td>Available Qty</td>
+            <td>Sell Qty</td>
+            <td>UnitPrice</td>
+            <td>Total</td>
+            <td>Action</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="vertical-align: middle;" ng-repeat="product in data.billproducts track by $index">
+            <td style="vertical-align: middle;">
+                <div>
+                    <select ng-model="data.billproducts[$index].product" ng-options="x.name for x in all">
+                    </select>
+                </div>
+            </td>
+            <td style="vertical-align: middle;">{{data.billproducts[$index].product.quantity}}</td>
+            <td style="vertical-align: middle;">
+                <div>
+                    <input type="text" ng-change="calculateUnitTotalPrice($index)" ng-model="data.billproducts[$index].sell_quantity" placeholder="Quantity"
+                           class="form-control" autofocus>
+                </div>
+            </td>
+            <td style="vertical-align: middle;">{{data.billproducts[$index].product.price}}</td>
+            <td style="vertical-align: middle;">{{data.billproducts[$index].total_price}}</td>
+            <td style="vertical-align: middle;">
+                <input type="button" ng-click="deleteRow($event,name)" value="Delete" ng-show="$index != 0">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="button" ng-click="addRow()" value="Add">
+
+    <div>{{data|json}}</div>
+    <div>{{all|json}}</div>
+</div>
+</body>
+</html>
