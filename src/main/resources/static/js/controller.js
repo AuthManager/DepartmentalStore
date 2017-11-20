@@ -73,6 +73,45 @@ app.controller('generatebillController', function ($scope, $http, $cookies, $win
     $scope.active_page = "generatebill";
     setSession($scope, $cookies, $window);
     allProducts($http, $scope);
+
+    $scope.cart = {
+        items: [{product: null, sell_quantity: 0, total_price: 0}],
+        cart_total_price: 0
+    };
+
+    $scope.calculateUnitTotalPrice = function (index) {
+        var item = $scope.cart.items[index];
+        item.total_price = 0;
+        if (item.product !== null && item.sell_quantity !== undefined) {
+            item.total_price = item.product.price * item.sell_quantity;
+        }
+        $scope.calculateCartTotalPrice();
+    };
+
+    $scope.addRow = function () {
+        var item = {product: null, sell_quantity: 0, total_price: 0};
+        var index = $scope.cart.items.length + 1;
+        $scope.cart.items.splice(index + 1, 0, item);
+        $scope.calculateCartTotalPrice();
+    };
+
+    $scope.deleteRow = function ($event, item) {
+        var index = $scope.cart.items.indexOf(item);
+        if ($event.which == 1)
+            $scope.cart.items.splice(item, 1);
+        $scope.calculateCartTotalPrice();
+    };
+
+    $scope.calculateCartTotalPrice = function () {
+        $scope.cart.cart_total_price = 0;
+        for(var index in $scope.cart.items){
+            var item = $scope.cart.items[index];
+            if (item.product !== null && item.sell_quantity !== undefined) {
+                $scope.cart.cart_total_price  += (item.product.price * item.sell_quantity);
+            }
+        }
+    }
+
 });
 
 
@@ -105,7 +144,7 @@ app.controller('updatepriceController', function ($scope, $http, $cookies, $wind
         if ($scope.selectedProduct && $scope.newprice) {
             $http({
                 method: "PUT",
-                url: "api/product/"+ $scope.selectedProduct.name,
+                url: "api/product/" + $scope.selectedProduct.name,
                 data: {
                     price: $scope.newprice
                 }
@@ -171,22 +210,7 @@ app.controller('addnewitemController', function ($scope, $http, $cookies, $windo
     };
 });
 
-function deleteRow(row) {
-    var billTable = document.getElementById('bill-table');
-    console.log(billTable.rows.length);
-    if (billTable.rows.length > 2) {
-        var index = row.parentNode.parentNode.rowIndex;
-        billTable.deleteRow(index);
-    } else {
-        alert("At least one row needs to be present");
-    }
-}
 
-function insRow() {
-    var billTable = document.getElementById('bill-table');
-    var newRow = billTable.rows[1].cloneNode(true);
-    billTable.getElementsByTagName("tbody")[0].appendChild(newRow);
-}
 
 function setSession($scope, $cookies, $window) {
     $scope.first_name = $cookies.get("FIRST_NAME");
