@@ -144,7 +144,7 @@ app.controller('updatepriceController', function ($scope, $http, $cookies, $wind
         if ($scope.selectedProduct && $scope.newprice) {
             $http({
                 method: "PUT",
-                url: "api/product/" + $scope.selectedProduct.name,
+                url: "api/product/" + $scope.selectedProduct.id,
                 data: {
                     price: $scope.newprice
                 }

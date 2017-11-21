@@ -2,9 +2,9 @@ package com.departmental.store.api.product.controller.request;
 
 public class ProductUpdateRequest {
 
-    private long price;
+    private float price;
 
-    public long getPrice() {
+    public float getPrice() {
         return price;
     }
 
