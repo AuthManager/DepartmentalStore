@@ -153,6 +153,37 @@ app.controller('viewsalesController', function ($scope, $http, $cookies, $window
     $scope.show_menu = true;
     $scope.active_page = "viewsales";
     setSession($scope, $cookies, $window);
+    allProducts($http, $scope);
+    $("#start").datepicker();
+    $("#end").datepicker();
+
+    $scope.sales = function () {
+        $scope.start = $('#start').val();
+        $scope.end = $('#end').val();
+        $scope.errorMessage = null;
+        if ($scope.start && $scope.end) {
+            $http({
+                method: "GET",
+                url: "api/sale?startDate=" + $scope.start + "&endDate=" + $scope.end,
+            }).then(
+                function successCallback(response) {
+                    $scope.results = response.data;
+                },
+                function errorCallback(response) {
+                    $scope.errorMessage = 'Problem occurred while updating a product.';
+                }
+            );
+        } else {
+            $scope.errorMessage = 'Please input atleast one field to update.';
+        }
+
+        function clearFields() {
+            $scope.start = "";
+            $scope.end = "";
+            $('#start').val("");
+            $('#end').val("");
+        }
+    };
 });
 
 app.controller('updatepriceController', function ($scope, $http, $cookies, $window) {

@@ -107,7 +107,7 @@ public class SaleService {
 
     private boolean inRange(LocalDate saleDate, String startDate, String endDate, String date) {
         boolean isRange = true;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         if (date != null) {
             String actual = saleDate.format(formatter);
             isRange = actual.equals(date);

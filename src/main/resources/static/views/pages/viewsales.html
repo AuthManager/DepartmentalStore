@@ -4,5 +4,53 @@
         <div class="page-header">
             <h3>View Sales</h3>
         </div>
+        <div>
+            <p>Enter below details to view sales :</p>
+            <div class="navbar">
+                <div class="row">
+                    <div style="padding-top: 20px;" class="col-md-8">
+                        <form class="navbar" ng-submit="sales()">
+                            <div>
+                                <span> From : </span>
+                                <span>
+                                    <input type="text" style="width: 100px;" class="form-control"
+                                       placeholder="Start Date" id="start" name="start" ng-model="start">
+                                </span>
+                                <span>To : </span>
+                                <span>
+                                    <input type="text" style="width: 100px;" class="form-control" placeholder="End Date"
+                                   id="end" name="end" ng-model="end">
+                                </span>
+                            </div>
+                            <div style="padding-top: 20px;">
+                                <button type="submit" style="width: 150px;"
+                                        class="btn btn-primary btn-block">View Sales
+                                </button>
+                            </div>
+                        </form>
+                        <table class="table" ng-show="results!=null">
+                            <thead>
+                            <tr class="background-blue" style="color: white;">
+                                <td>Product Name</td>
+                                <td>Price</td>
+                                <td>Remaining Quantity</td>
+                                <td>Sold Quantity</td>
+                                <td>Total Price</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr style="vertical-align: middle;" ng-repeat="sale in results">
+                                <td style="vertical-align: middle;">{{ sale.product.name }}</td>
+                                <td style="vertical-align: middle;">{{ sale.product.price }}</td>
+                                <td style="vertical-align: middle;">{{ sale.product.quantity }}</td>
+                                <td style="vertical-align: middle;">{{ sale.soldQuantity }}</td>
+                                <td style="vertical-align: middle;">{{ sale.totalPrice }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
