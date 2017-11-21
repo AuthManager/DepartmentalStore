@@ -72,12 +72,15 @@ app.controller('generatebillController', function ($scope, $http, $cookies, $win
     $scope.show_menu = true;
     $scope.active_page = "generatebill";
     setSession($scope, $cookies, $window);
-    allProducts($http, $scope);
+    initialCart();
 
-    $scope.cart = {
-        items: [{product: null, sell_quantity: 0, total_price: 0}],
-        cart_total_price: 0
-    };
+    function initialCart() {
+        allProducts($http, $scope);
+        $scope.cart = {
+            items: [{product: null, sell_quantity: 0, total_price: 0}],
+            cart_total_price: 0
+        };
+    }
 
     $scope.calculateUnitTotalPrice = function (index) {
         var item = $scope.cart.items[index];
@@ -97,7 +100,7 @@ app.controller('generatebillController', function ($scope, $http, $cookies, $win
 
     $scope.deleteRow = function ($event, item) {
         var index = $scope.cart.items.indexOf(item);
-        if ($event.which == 1)
+        if ($event.which === 1)
             $scope.cart.items.splice(item, 1);
         $scope.calculateCartTotalPrice();
     };
@@ -110,6 +113,30 @@ app.controller('generatebillController', function ($scope, $http, $cookies, $win
                 $scope.cart.cart_total_price  += (item.product.price * item.sell_quantity);
             }
         }
+    };
+
+    $scope.purchase = function () {
+        var saleRequest = [];
+        for (var index in $scope.cart.items) {
+            var item = $scope.cart.items[index];
+            if (item.product !== null && item.sell_quantity !== undefined) {
+                saleRequest.push({"productId": item.product.id, "sellQuantity": item.sell_quantity});
+            }
+        }
+        $http({
+            method: "POST",
+            url: "api/sale",
+            data : saleRequest
+        }).then(
+            function successCallback(response) {
+                $scope.saleResponse = response.data;
+                $scope.successMessage = "Successfully created purchase order with Transaction Id : " + $scope.saleResponse.transactionId;
+                initialCart();
+            },
+            function errorCallback(response) {
+                $scope.errorMessage = 'Problem occurred while searching';
+            }
+        );
     }
 
 });
