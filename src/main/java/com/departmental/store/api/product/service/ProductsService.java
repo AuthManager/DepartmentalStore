@@ -27,7 +27,7 @@ public class ProductsService {
 
     public ProductResponse get(String id) {
         Product product = productRepository.findOne(id);
-        return new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getQuantity());
+        return ProductResponse.from(product);
     }
 
     public List<ProductResponse> allProducts() {
@@ -35,7 +35,7 @@ public class ProductsService {
 
         return products
                 .stream()
-                .map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getQuantity()))
+                .map(ProductResponse::from)
                 .collect(Collectors.toList());
     }
 
