@@ -53,7 +53,7 @@ dependencies {
     testCompile "junit:junit:$junitVersion"
 }
 
-task startDepartmentalStore(dependsOn: ["assemble", "stopAdmin"]) << {
+task startDepartmentalStore(dependsOn: ["assemble", "stopDepartmentalStore"]) << {
     println "Starting Departmental Store"
     ant.java(fork: true, spawn: true, jar: "${projectDir}/build/libs/DepartmentalStore-1.0.jar") {
         arg(value: "--spring.config.location=${projectDir}/src/main/resources/application.properties")
