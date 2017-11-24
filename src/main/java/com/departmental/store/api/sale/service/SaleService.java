@@ -41,7 +41,7 @@ public class SaleService {
         float totalPrice = 0;
         for (CartItemRequest cartItem : cartItems) {
             Product product = getProduct(cartItem.getProductId());
-            items.add(new Item(product.getId(), product.getName(), product.getPrice(), cartItem.getSellQuantity()));
+            items.add(new Item(product.getId().toString(), product.getName(), product.getPrice(), cartItem.getSellQuantity()));
             totalPrice += (product.getPrice() * cartItem.getSellQuantity());
             updateQuantity(product, cartItem.getSellQuantity());
         }
@@ -65,18 +65,18 @@ public class SaleService {
     }
 
     private Product getProduct(String productId) {
-        return productRepository.findOne(productId);
+        return productRepository.findOne(new Integer(productId));
     }
 
     public ProductSaleEntityResponse getProductSale(String productId, String startDate, String endDate, String date) {
-        Product product = productRepository.findOne(productId);
+        Product product = productRepository.findOne(new Integer(productId));
         List<Sale> sales = saleRepository.findAll();
         SaleEntityResponse saleEntityResponse = getSaleEntityResponse(product, sales, startDate, endDate, date);
         return new ProductSaleEntityResponse(ProductResponse.from(product), saleEntityResponse);
     }
 
     public List<ProductSaleEntityResponse> overallSale(String startDate, String endDate, String date) {
-        List<Product> products = productRepository.findAll();
+        Iterable<Product> products = productRepository.findAll();
         List<Sale> sales = saleRepository.findAll();
         List<ProductSaleEntityResponse> overallSale = new LinkedList<>();
         for (Product product : products) {
