@@ -31,3 +31,6 @@ hs_err_pid*
 out/**
 .DS_Store
 build/**
+
+.project
+.settings
