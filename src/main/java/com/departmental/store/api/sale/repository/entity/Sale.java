@@ -1,49 +1,51 @@
 package com.departmental.store.api.sale.repository.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
-import java.util.List;
 
-@Document
+@Entity
 public class Sale {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer id;
+
     private LocalDate date;
-    private List<Item> items;
+
     private double totalPrice;
 
-    @PersistenceConstructor
-    public Sale(String id, LocalDate date, List<Item> items, double totalPrice) {
-        this.id = id;
+    public Sale() {
+    }
+
+    public Sale(LocalDate date, double totalPrice) {
         this.date = date;
-        this.items = items;
         this.totalPrice = totalPrice;
     }
 
-    public Sale(LocalDate date, List<Item> items, double totalPrice) {
-        this.date = date;
-        this.items = items;
-        this.totalPrice = totalPrice;
-    }
-
-    public String getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public LocalDate getDate() {
         return date;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public double getTotalPrice() {
         return totalPrice;
     }
 
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }

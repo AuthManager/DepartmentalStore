@@ -8,6 +8,7 @@ import com.departmental.store.api.sale.controller.response.CartItemResponse;
 import com.departmental.store.api.sale.controller.response.ProductSaleEntityResponse;
 import com.departmental.store.api.sale.controller.response.SaleEntityResponse;
 import com.departmental.store.api.sale.controller.response.SaleResponse;
+import com.departmental.store.api.sale.repository.ItemRepository;
 import com.departmental.store.api.sale.repository.SaleRepository;
 import com.departmental.store.api.sale.repository.entity.Item;
 import com.departmental.store.api.sale.repository.entity.Sale;
@@ -24,11 +25,13 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final ProductRepository productRepository;
+    private ItemRepository itemRepository;
 
     @Autowired
-    public SaleService(SaleRepository saleRepository, ProductRepository productRepository) {
+    public SaleService(SaleRepository saleRepository, ProductRepository productRepository, ItemRepository itemRepository) {
         this.saleRepository = saleRepository;
         this.productRepository = productRepository;
+        this.itemRepository = itemRepository;
     }
 
     public SaleResponse create(List<CartItemRequest> cartItems) {
@@ -37,26 +40,29 @@ public class SaleService {
     }
 
     private Sale createSale(List<CartItemRequest> cartItems) {
-        List<Item> items = new ArrayList<>();
+        Sale sale = new Sale(LocalDate.now(), 0);
+        saleRepository.save(sale);
         float totalPrice = 0;
+        List<Item> items = new ArrayList<>();
         for (CartItemRequest cartItem : cartItems) {
             Product product = getProduct(cartItem.getProductId());
-            items.add(new Item(product.getId().toString(), product.getName(), product.getPrice(), cartItem.getSellQuantity()));
+            items.add(new Item(sale, product, cartItem.getSellQuantity()));
             totalPrice += (product.getPrice() * cartItem.getSellQuantity());
             updateQuantity(product, cartItem.getSellQuantity());
         }
-        Sale sale = new Sale(LocalDate.now(), items, totalPrice);
-        saleRepository.insert(sale);
+        itemRepository.save(items);
+        sale.setTotalPrice(totalPrice);
+        saleRepository.save(sale);
         return sale;
     }
 
     private SaleResponse createSaleResponse(Sale sale) {
-        List<CartItemResponse> itemsResponse = sale.getItems()
-                .stream()
-                .map(item -> new CartItemResponse(item.getId(), item.getName(), item.getUnitPrice(), item.getSoldQuantity()))
+        List<Item> items = itemRepository.findAllBySale(sale);
+        List<CartItemResponse> itemsResponse = items.stream()
+                .map(item -> new CartItemResponse(getProduct(item.getProduct().getId().toString()), item.getSoldQuantity()))
                 .collect(Collectors.toList());
 
-        return new SaleResponse(sale.getId(), sale.getDate().toString(), sale.getTotalPrice(), itemsResponse);
+        return new SaleResponse(sale.getId().toString(), sale.getDate().toString(), sale.getTotalPrice(), itemsResponse);
     }
 
     private void updateQuantity(Product product, int soldQuantity) {
@@ -70,14 +76,14 @@ public class SaleService {
 
     public ProductSaleEntityResponse getProductSale(String productId, String startDate, String endDate, String date) {
         Product product = productRepository.findOne(new Integer(productId));
-        List<Sale> sales = saleRepository.findAll();
+        Iterable<Sale> sales = saleRepository.findAll();
         SaleEntityResponse saleEntityResponse = getSaleEntityResponse(product, sales, startDate, endDate, date);
         return new ProductSaleEntityResponse(ProductResponse.from(product), saleEntityResponse);
     }
 
     public List<ProductSaleEntityResponse> overallSale(String startDate, String endDate, String date) {
         Iterable<Product> products = productRepository.findAll();
-        List<Sale> sales = saleRepository.findAll();
+        Iterable<Sale> sales = saleRepository.findAll();
         List<ProductSaleEntityResponse> overallSale = new LinkedList<>();
         for (Product product : products) {
             SaleEntityResponse saleEntityResponse = getSaleEntityResponse(product, sales, startDate, endDate, date);
@@ -87,20 +93,22 @@ public class SaleService {
     }
 
     private SaleEntityResponse getSaleEntityResponse(Product product,
-                                                     List<Sale> sales,
+                                                     Iterable<Sale> sales,
                                                      String startDate,
                                                      String endDate,
                                                      String date) {
         int soldQuantity = 0;
         float totalPrice = 0;
         for (Sale sale : sales) {
-            if (inRange(sale.getDate(), startDate, endDate, date))
-                for (Item item : sale.getItems()) {
+            if (inRange(sale.getDate(), startDate, endDate, date)) {
+                List<Item> items = itemRepository.findAllBySale(sale);
+                for (Item item : items) {
                     if (isProduct(product, item)) {
                         soldQuantity += item.getSoldQuantity();
-                        totalPrice += (item.getUnitPrice() * item.getSoldQuantity());
+                        totalPrice += (getProduct(item.getProduct().getId().toString()).getPrice() * item.getSoldQuantity());
                     }
                 }
+            }
         }
         return new SaleEntityResponse(soldQuantity, totalPrice);
     }

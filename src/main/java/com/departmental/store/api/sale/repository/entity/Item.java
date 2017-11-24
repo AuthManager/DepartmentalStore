@@ -1,33 +1,62 @@
 package com.departmental.store.api.sale.repository.entity;
 
+import com.departmental.store.api.product.repository.entity.Product;
+
+import javax.persistence.*;
+
+@Entity
 public class Item {
 
-    private String id;
-    private String name;
-    private float unitPrice;
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer id;
+
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
+    private Sale sale;
+
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
+    private Product product;
+
     private int soldQuantity;
 
-    public Item(String id, String name, float unitPrice, int soldQuantity) {
-        this.id = id;
-        this.name = name;
-        this.unitPrice = unitPrice;
+    public Item() {
+    }
+
+    public Item(Sale sale, Product product, int soldQuantity) {
+        this.sale = sale;
+        this.product = product;
         this.soldQuantity = soldQuantity;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public float getUnitPrice() {
-        return unitPrice;
+    public Sale getSale() {
+        return sale;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getSoldQuantity() {
         return soldQuantity;
     }
 
+    public void setSoldQuantity(int soldQuantity) {
+        this.soldQuantity = soldQuantity;
+    }
 }

@@ -1,5 +1,7 @@
 package com.departmental.store.api.sale.controller.response;
 
+import com.departmental.store.api.product.repository.entity.Product;
+
 public class CartItemResponse {
 
     private String productId;
@@ -7,11 +9,11 @@ public class CartItemResponse {
     private int soldQuantity;
     private float unitPrice;
 
-    public CartItemResponse(String productId, String productName,float unitPrice, int soldQuantity) {
-        this.productId = productId;
-        this.productName = productName;
+    public CartItemResponse(Product product, int soldQuantity) {
+        this.productId = product.getId().toString();
+        this.productName = product.getName();
         this.soldQuantity = soldQuantity;
-        this.unitPrice = unitPrice;
+        this.unitPrice = product.getPrice();
     }
 
     public String getProductId() {
